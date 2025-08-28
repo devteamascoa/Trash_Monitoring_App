@@ -76,6 +76,19 @@ Core setup that holds global app logic.
 - **services/** → Firebase/API wrappers and other external services.
 - **models/** → Shared data models used across features (e.g. `User`, `Post`).
 
+### Controllers vs Services
+
+- **Controllers** → Manage the app’s **state and UI logic**.  
+  They handle how data flows between your views (screens) and services.  
+  Example: `AuthController` listens to login inputs, calls the `AuthService` to verify the user, and then updates the UI.
+
+- **Services** → Handle **external operations** like API calls, Firebase auth, or database access.  
+  They don’t know about the UI; they just provide raw data or results.
+
+👉 Think of it like this:  
+**Service = "Go fetch/store the data"**  
+**Controller = "Decide what to do with that data and show it to the user"**
+
 ---
 
 ### `modules/`
@@ -85,8 +98,8 @@ Feature-based folders. Each feature is self-contained with its own screens, widg
 Typical structure inside a module:
 
 - **views/** → Screens for the feature.
-- **widgets/** → Reusable widgets specific to that feature.
-- **bindings/** → Dependency injection for controllers/services.
+- **widgets/** → Reusable widgets specific to that feature. Like a Login form widget for the login screen, because its only used in the login screen we do not put it in the shared widgets library.
+- **bindings/** → Dependency injection for controllers/services. See [Bindings in GetX](#-bindings-in-getx)
 
 Examples of modules: `auth/`, `home/`, `profile/`, `posts/`, `search/`, `settings/`.
 
@@ -97,8 +110,54 @@ Examples of modules: `auth/`, `home/`, `profile/`, `posts/`, `search/`, `setting
 Holds everything that can be reused across multiple modules.
 
 - **widgets/** → Common UI components (buttons, inputs, loaders).
-- **constants/** → Central values like colors, strings, dimensions.
-- **utils/** → Helper functions (validators, formatters, date helpers).
-- **themes/** → Light/dark theme setup and text styles.
+- **constants/** → Central values like colors, strings, dimensions. This is good so that we dont have to keep defining colours, we can just define them once and use them everywhere.
+- **utils/** → Helper functions (validators, formatters, date helpers). Example: a password strength shecker which validates the strench of the password
+- **themes/** → Light/dark theme setup and text styles.(Optional)
 
 ---
+
+### 🔗 Bindings in GetX
+
+Bindings in GetX are a clean way to manage dependency injection. Instead of creating controllers or services directly inside your UI files, you declare them once in a Binding. When a route loads, GetX automatically initializes the required dependencies and disposes of them when the route is removed. This keeps your code organized, avoids repeating initialization logic everywhere, and makes it easier to scale when controllers need new dependencies.
+
+<details>
+  <summary>📌 Example (click to expand)</summary>
+
+```dart
+// auth_binding.dart
+class AuthBinding extends Bindings {
+  @override
+  void dependencies() {
+    Get.lazyPut<AuthController>(() => AuthController());
+  }
+}
+
+// main.dart
+GetMaterialApp(
+  initialRoute: '/login',
+  getPages: [
+    GetPage(
+      name: '/login',
+      page: () => LoginScreen(),
+      binding: AuthBinding(), // (2) Injects AuthController automatically
+    ),
+  ],
+);
+// login_screen.dart
+class LoginScreen extends StatelessWidget {
+  final controller = Get.find<AuthController>();
+  // This won’t be needed because we already injected it in (2)
+  // With Bindings, we inject AuthController once in AuthBinding and can fetch it anywhere it’s needed.
+  // Without Bindings, we would have to manually create or put the controller in every screen that uses it,
+  // which can lead to repetitive code and potential memory leaks.
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Text(controller.title),
+      ),
+    );
+  }
+}
+```
