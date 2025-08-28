@@ -76,7 +76,7 @@ Core setup that holds global app logic.
 - **services/** → Firebase/API wrappers and other external services.
 - **models/** → Shared data models used across features (e.g. `User`, `Post`).
 
-### Controllers vs Services
+### Controllers vs Services (This seperation is optional, but it is best practice)
 
 - **Controllers** → Manage the app’s **state and UI logic**.  
   They handle how data flows between your views (screens) and services.  
