@@ -13,9 +13,9 @@ lib/
 │   │   └── app_routes.dart
 │   ├── controllers/         # Global state controllers
 │   │   └── auth_controller.dart
-│   ├── services/            # Firebase/API services
-│   │   └── auth_service.dart
 │   └── models/              # Global models (User, Post, etc.)
+│       └── user.dart
+│       └── posts.dart
 │
 ├── modules/                 # Feature-based modules
 │   ├── auth/                # Login/Signup
@@ -54,7 +54,7 @@ lib/
     └── themes/              # Light/dark theme, text styles
 ```
 
-# 📂 Folder Guide
+## 📂 Folder Guide
 
 A quick overview of the project structure and what goes where:
 
@@ -72,22 +72,8 @@ A quick overview of the project structure and what goes where:
 Core setup that holds global app logic.
 
 - **routes/** → Centralized navigation (all `GetPages` live here).
-- **controllers/** → Global state controllers (e.g. auth).
-- **services/** → Firebase/API wrappers and other external services.
+- **controllers/** → Global state controllers (e.g. auth). And communicate with external APIs like Firebase.
 - **models/** → Shared data models used across features (e.g. `User`, `Post`).
-
-### Controllers vs Services (This seperation is optional, but it is best practice)
-
-- **Controllers** → Manage the app’s **state and UI logic**.  
-  They handle how data flows between your views (screens) and services.  
-  Example: `AuthController` listens to login inputs, calls the `AuthService` to verify the user, and then updates the UI.
-
-- **Services** → Handle **external operations** like API calls, Firebase auth, or database access.  
-  They don’t know about the UI; they just provide raw data or results.
-
-👉 Think of it like this:  
-**Service = "Go fetch/store the data"**  
-**Controller = "Decide what to do with that data and show it to the user"**
 
 ---
 
