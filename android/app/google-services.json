@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "53676250482",
+    "project_id": "ascoa-debug",
+    "storage_bucket": "ascoa-debug.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:53676250482:android:fb7ce5f82d874095a679eb",
+        "android_client_info": {
+          "package_name": "com.example.ascoa_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "53676250482-vmvq534a94up340sbsmtn8nkmr5q3dnf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKfpf1x2KtM35xvNSigR5XZtq6xhj6ew8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "53676250482-vmvq534a94up340sbsmtn8nkmr5q3dnf.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "53676250482-kbcavoafaarbpeho88f8va3eitiso2r9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.ascoaApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
