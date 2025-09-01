@@ -67,3 +67,5 @@ flutter_*.png
 **/.symlinks/
 **/DerivedData/
 *.xcworkspace
+
+.fake

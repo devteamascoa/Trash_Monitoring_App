@@ -2,6 +2,10 @@
 
 A new Flutter project.
 
+## 📂 Project Structure
+
+See the [Structure.md](Structure.md) file for a detailed overview of the project architecture and folder organization.
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
