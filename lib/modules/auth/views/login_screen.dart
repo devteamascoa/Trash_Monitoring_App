@@ -153,14 +153,14 @@ class LoginScreen extends StatelessWidget {
 
                 // OR Divider
                 Row(
-                  children: const [
-                    Expanded(
+                  children: [
+                    const Expanded(
                       child: Divider(
                         color: AppColors.white,
                         thickness: AppDimensions.dividerThickness,
                       ),
                     ),
-                    Padding(
+                    const Padding(
                       padding: EdgeInsets.symmetric(
                         horizontal: AppDimensions.dividerPadding,
                       ),
@@ -169,7 +169,7 @@ class LoginScreen extends StatelessWidget {
                         style: AppTextStyles.dividerText,
                       ),
                     ),
-                    Expanded(
+                    const Expanded(
                       child: Divider(
                         color: AppColors.white,
                         thickness: AppDimensions.dividerThickness,
@@ -221,7 +221,7 @@ class LoginScreen extends StatelessWidget {
                     TextButton(
                       style: TextButton.styleFrom(
                         padding: EdgeInsets.zero,
-                        minimumSize: Size(0, 0),
+                        minimumSize: Size.zero,
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       ),
                       onPressed: () {
