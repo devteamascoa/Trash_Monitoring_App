@@ -221,7 +221,7 @@ class LoginScreen extends StatelessWidget {
                     TextButton(
                       style: TextButton.styleFrom(
                         padding: EdgeInsets.zero,
-                        minimumSize: Size(0, 0),
+                        minimumSize: Size.zero,
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       ),
                       onPressed: () {
