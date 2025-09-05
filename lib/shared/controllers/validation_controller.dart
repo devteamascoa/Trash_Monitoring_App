@@ -1,0 +1,24 @@
+import 'package:get/get.dart';
+import 'package:ascoa_app/shared/utils/validators.dart';
+
+class ValidationController extends GetxController {
+  var emailError = Rx<String?>(null);
+  var passwordError = Rx<String?>(null);
+
+  void validateEmail(String email) {
+    emailError.value = Validators.validateEmail(email);
+  }
+
+  void validatePasswordRequired(String password) {
+    passwordError.value = Validators.validateRequired(password, 'Password');
+  }
+
+  void clearValidation() {
+    emailError.value = null;
+    passwordError.value = null;
+  }
+
+  bool get isFormValid {
+    return emailError.value == null && passwordError.value == null;
+  }
+}
