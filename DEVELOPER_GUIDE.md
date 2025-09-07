@@ -22,7 +22,6 @@ lib/
 - Global AuthController registration with `permanent: true`
 - GetX app configuration
 
-````plaintext
 
 ### 2. Authentication Module (`modules/auth/`)
 
