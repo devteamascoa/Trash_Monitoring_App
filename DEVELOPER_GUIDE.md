@@ -22,6 +22,8 @@ lib/
 - Global AuthController registration with `permanent: true`
 - GetX app configuration
 
+- Dynamic initial route: the app now checks `FirebaseAuth.instance.currentUser` after initialization and sets the initial route to `AppRoutes.home` when a user is already signed in; otherwise it uses `AppRoutes.login`.
+
 ````plaintext
 
 ### 2. Authentication Module (`modules/auth/`)
@@ -30,6 +32,10 @@ lib/
 - Uses shared constants (colors, text styles, dimensions)
 - Integrates with global AuthController
 - Custom widgets for consistent design
+
+AuthController behavior changes:
+- `login` now navigates to `AppRoutes.home` on successful email/password login.
+- `logout` calls `FirebaseAuth.signOut()` and shows a snackbar confirmation.
 
 ### 3. Shared Design System (`shared/constants/`)
 
@@ -56,6 +62,10 @@ Created centralized constants to replace hard-coded values:
 ### 6. Form Management (`shared/controllers/`)
 
 **FormControllers** - Manages TextEditingControllers with automatic cleanup
+
+**ValidationController** updates:
+- New reactive `isTermsAccepted` (tracks checkbox state for terms and conditions).
+- New reactive `termsError` (string) to hold inline validation error for the terms checkbox; the signup UI displays this inline like other field errors.
 
 ## Key Architectural Decisions
 

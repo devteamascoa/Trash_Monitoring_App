@@ -13,6 +13,7 @@ class AppStrings {
   static const String noAccount = "Don't have an account? ";
   static const String signUp = "Sign up";
   static const String termsText = "By using ASCOA, you agree to the \n";
+  static const String termsTextSignUp = "By clicking here, you agree to the ";
   static const String termsLink = "Terms";
   static const String termsAnd = " and ";
   static const String privacyPolicyLink = "Privacy Policy";
@@ -25,5 +26,8 @@ class AppStrings {
   static const String privacyPolicyNav = "Navigate to Privacy Policy screen";
 
   // Prevent instantiation
+
+  //Signup Screen
+  static const String signupTitle = "Create Account";
   AppStrings._();
 }

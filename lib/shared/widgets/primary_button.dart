@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ascoa_app/shared/constants/app_colors.dart';
 
 class PrimaryButton extends StatelessWidget {
   final String label;
@@ -17,7 +18,8 @@ class PrimaryButton extends StatelessWidget {
       height: 55,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFF228B22),
+          backgroundColor:
+              AppColors.buttonPrimary, // Use consistent green color
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
@@ -27,7 +29,7 @@ class PrimaryButton extends StatelessWidget {
           label,
           style: const TextStyle(
             fontFamily: 'Inter',
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.w600, // Updated to match Figma
             fontSize: 16,
             color: Colors.white,
           ),

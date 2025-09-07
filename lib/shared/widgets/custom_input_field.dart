@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ascoa_app/shared/constants/app_colors.dart';
 
 class CustomInputField extends StatelessWidget {
   final TextEditingController controller;
@@ -27,7 +28,10 @@ class CustomInputField extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.white,
             border: Border.all(
-              color: errorText != null ? Colors.red : const Color(0xFFA9D0F5),
+              color:
+                  errorText != null
+                      ? Colors.red
+                      : AppColors.accent, // Green border
               width: 3,
             ),
             borderRadius: BorderRadius.circular(10),
@@ -50,7 +54,7 @@ class CustomInputField extends StatelessWidget {
               hintStyle: const TextStyle(
                 fontFamily: 'Roboto',
                 fontSize: 16,
-                color: Color(0xFF9F9F9F),
+                color: AppColors.textHint, // Use consistent hint color
               ),
             ),
           ),

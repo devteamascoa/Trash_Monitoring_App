@@ -10,13 +10,16 @@ Quick reference for reusable components, constants, and utilities in the ASCOA a
 import 'package:ascoa_app/shared/constants/app_colors.dart';
 
 // Usage
-Container(color: AppColors.primary)  // Main blue #5B92E5
+Container(color: AppColors.primary)  // Background color (white)
 ```
 
-- `AppColors.primary` - Main blue
-- `AppColors.white` - Pure white
-- `AppColors.google` - Google blue
-- `AppColors.facebook` - Facebook blue
+- `AppColors.primary` - White background (0xFFFFFFFF)
+- `AppColors.accent` - Green accent color (0xFFA4C639)
+- `AppColors.buttonPrimary` - Green button color (0xFF228B22)
+- `AppColors.white` - Pure white (Colors.white)
+- `AppColors.google` - Google blue (0xFF4285F4)
+- `AppColors.facebook` - Facebook blue (0xFF4267B2)
+- `AppColors.error` - Red color used for inline error messages (0xFFFF0000)
 
 ### Text Styles (`app_text_styles.dart`)
 
@@ -27,10 +30,14 @@ import 'package:ascoa_app/shared/constants/app_text_styles.dart';
 Text('Welcome', style: AppTextStyles.heading1)
 ```
 
-- `AppTextStyles.heading1` - Large page titles
+- `AppTextStyles.heading1` - Large page titles (uses `AppColors.textPrimary` / black)
 - `AppTextStyles.label` - Form labels
-- `AppTextStyles.body` - Regular text
-- `AppTextStyles.buttonLink` - Clickable links
+- `AppTextStyles.body` - Regular body text (uses `AppColors.textBlack`)
+- `AppTextStyles.bodySecondary` - Secondary body text (uses `AppColors.textBlack70`)
+- `AppTextStyles.buttonLink` - Clickable link-style text
+- `AppTextStyles.dividerText` - Small text used in dividers ("OR")
+- `AppTextStyles.termsBase` / `termsLink` - Styles for terms text and links
+- `AppTextStyles.errorText` - Small red error text used for inline validation messages
 
 ### Spacing (`app_dimensions.dart`)
 
@@ -144,6 +151,11 @@ CustomInputField(
 
 - `emailController` - For email inputs
 - `passwordController` - For password inputs
+
+### ValidationController additions
+
+- `isTermsAccepted` (RxBool) — tracks whether the user has accepted Terms & Conditions (used by signup UI).
+- `termsError` (Rx<String?>) — holds an inline error string for the terms checkbox; signup displays this below the checkbox similar to other field errors.
 
 ### ValidationController (`validation_controller.dart`)
 

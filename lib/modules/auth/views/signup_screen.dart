@@ -6,15 +6,14 @@ import 'package:ascoa_app/shared/controllers/form_controllers.dart';
 import 'package:ascoa_app/shared/controllers/validation_controller.dart';
 import 'package:ascoa_app/shared/widgets/custom_input_field.dart';
 import 'package:ascoa_app/shared/widgets/primary_button.dart';
-import 'package:ascoa_app/shared/widgets/social_button.dart';
 import 'package:ascoa_app/shared/constants/app_colors.dart';
 import 'package:ascoa_app/shared/constants/app_text_styles.dart';
 import 'package:ascoa_app/shared/constants/app_dimensions.dart';
 import 'package:ascoa_app/shared/constants/app_strings.dart';
-import 'package:ascoa_app/app/routes/app_routes.dart';
+import 'package:ascoa_app/shared/widgets/social_button.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class SignupScreen extends StatelessWidget {
+  const SignupScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +54,7 @@ class LoginScreen extends StatelessWidget {
 
                 // Title
                 const Text(
-                  AppStrings.loginTitle,
+                  AppStrings.signupTitle,
                   textAlign: TextAlign.center,
                   style: AppTextStyles.heading1,
                 ),
@@ -106,23 +105,119 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
 
-                SizedBox(height: size.height * AppDimensions.buttonSpacing),
+                SizedBox(height: size.height * AppDimensions.inputSpacing),
 
-                //Login Button
+                // Terms and Conditions
+                Obx(
+                  () => Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 24,
+                            height: 24,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: AppColors.accent, // Green border
+                                width: 3,
+                              ),
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: Checkbox(
+                              value: validationController.isTermsAccepted.value,
+                              onChanged: (value) {
+                                debugPrint('Checkbox changed: $value');
+                                validationController.isTermsAccepted.value =
+                                    value ?? false;
+                                if (value == true) {
+                                  validationController.termsError.value = null;
+                                }
+                              },
+                              activeColor: AppColors.accent,
+                              checkColor: AppColors.white,
+                              side: BorderSide.none, // Remove black border
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: RichText(
+                              text: TextSpan(
+                                style: AppTextStyles.termsBase,
+                                children: [
+                                  const TextSpan(
+                                    text: AppStrings.termsTextSignUp,
+                                  ),
+                                  TextSpan(
+                                    text: AppStrings.termsLink,
+                                    style: AppTextStyles.termsLink,
+                                    recognizer:
+                                        TapGestureRecognizer()
+                                          ..onTap = () {
+                                            Get.snackbar(
+                                              AppStrings.termsLink,
+                                              AppStrings.termsNav,
+                                            );
+                                          },
+                                  ),
+                                  const TextSpan(text: AppStrings.termsAnd),
+                                  TextSpan(
+                                    text: AppStrings.privacyPolicyLink,
+                                    style: AppTextStyles.termsLink,
+                                    recognizer:
+                                        TapGestureRecognizer()
+                                          ..onTap = () {
+                                            Get.snackbar(
+                                              AppStrings.privacyPolicyLink,
+                                              AppStrings.privacyPolicyNav,
+                                            );
+                                          },
+                                  ),
+                                  const TextSpan(text: AppStrings.termsPeriod),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      if (validationController.termsError.value != null)
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            top: AppDimensions.smallSpacing,
+                          ),
+                          child: Text(
+                            validationController.termsError.value!,
+                            style: AppTextStyles.errorText,
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+
+                SizedBox(height: size.height * AppDimensions.sectionSpacing),
+
+                // Create Account Button
                 PrimaryButton(
-                  label: AppStrings.loginButton,
+                  label: AppStrings.signupTitle,
                   onPressed: () {
                     // Validate form
                     validationController.validateEmail(
                       formControllers.emailController.text,
                     );
-                    validationController.validatePasswordRequired(
+                    validationController.validateStrongPassword(
                       formControllers.passwordController.text,
                     );
 
+                    if (!validationController.isTermsAccepted.value) {
+                      validationController.termsError.value =
+                          'You must accept the terms and conditions to proceed.';
+                    }
+
                     // Only proceed if form is valid
-                    if (validationController.isFormValid) {
-                      controller.login(
+                    if (validationController.isFormValid &&
+                        validationController.isTermsAccepted.value) {
+                      controller.signup(
                         formControllers.emailController.text,
                         formControllers.passwordController.text,
                       );
@@ -130,26 +225,6 @@ class LoginScreen extends StatelessWidget {
                   },
                 ),
 
-                SizedBox(
-                  height: size.height * AppDimensions.buttonForgotSpacing,
-                ),
-
-                //Forgot Password
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: () {
-                      Get.snackbar(
-                        AppStrings.forgotPassword,
-                        AppStrings.forgotPasswordNav,
-                      );
-                    },
-                    child: const Text(
-                      AppStrings.forgotPassword,
-                      style: AppTextStyles.buttonLink,
-                    ),
-                  ),
-                ),
                 SizedBox(height: size.height * AppDimensions.sectionSpacing),
 
                 // OR Divider
@@ -168,8 +243,9 @@ class LoginScreen extends StatelessWidget {
                         horizontal: AppDimensions.dividerPadding,
                       ),
                       child: Text(
-                        AppStrings.dividerOr,
-                        style: AppTextStyles.dividerText,
+                        'OR',
+                        style:
+                            AppTextStyles.dividerText, // Use consistent style
                       ),
                     ),
                     const Expanded(
@@ -193,7 +269,7 @@ class LoginScreen extends StatelessWidget {
                     height: AppDimensions.socialIconSize,
                     fit: BoxFit.contain,
                   ),
-                  label: AppStrings.continueWithGoogle,
+                  label: 'Continue with Google',
                   color: AppColors.google,
                   onPressed: () => controller.loginWithGoogle(),
                 ),
@@ -208,77 +284,9 @@ class LoginScreen extends StatelessWidget {
                     height: AppDimensions.socialIconSize,
                     fit: BoxFit.contain,
                   ),
-                  label: AppStrings.continueWithFacebook,
+                  label: 'Continue with Facebook',
                   color: AppColors.facebook,
                   onPressed: () => controller.loginWithFacebook(),
-                ),
-
-                SizedBox(height: size.height * AppDimensions.sectionSpacing),
-
-                // Sign Up (only 'Sign up' is a link)
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      AppStrings.noAccount,
-                      style: AppTextStyles.bodySecondary,
-                    ),
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                        minimumSize: Size.zero,
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      ),
-                      onPressed: () {
-                        Get.toNamed(
-                          AppRoutes.signup,
-                        ); // Navigate to Signup Screen
-                      },
-                      child: const Text(
-                        AppStrings.signUp,
-                        style: AppTextStyles.buttonLink,
-                      ),
-                    ),
-                  ],
-                ),
-
-                const SizedBox(height: AppDimensions.bottomSpacing),
-
-                // Terms
-                RichText(
-                  textAlign: TextAlign.center,
-                  text: TextSpan(
-                    style: AppTextStyles.termsBase,
-                    children: [
-                      const TextSpan(text: AppStrings.termsText),
-                      TextSpan(
-                        text: AppStrings.termsLink,
-                        style: AppTextStyles.termsLink,
-                        recognizer:
-                            TapGestureRecognizer()
-                              ..onTap = () {
-                                Get.snackbar(
-                                  AppStrings.termsLink,
-                                  AppStrings.termsNav,
-                                );
-                              },
-                      ),
-                      const TextSpan(text: AppStrings.termsAnd),
-                      TextSpan(
-                        text: AppStrings.privacyPolicyLink,
-                        style: AppTextStyles.termsLink,
-                        recognizer:
-                            TapGestureRecognizer()
-                              ..onTap = () {
-                                Get.snackbar(
-                                  AppStrings.privacyPolicyLink,
-                                  AppStrings.privacyPolicyNav,
-                                );
-                              },
-                      ),
-                      const TextSpan(text: AppStrings.termsPeriod),
-                    ],
-                  ),
                 ),
               ],
             ),

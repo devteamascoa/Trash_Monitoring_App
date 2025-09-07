@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:ascoa_app/app/routes/app_routes.dart';
 
 class AuthController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -17,6 +18,7 @@ class AuthController extends GetxController {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
       Get.snackbar('Login Successful', 'Welcome back!');
+      Get.offAllNamed(AppRoutes.home);
     } catch (e) {
       Get.snackbar('Login Failed', e.toString());
     }
@@ -26,7 +28,7 @@ class AuthController extends GetxController {
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
       if (googleUser == null) {
-        // User cancelled the sign-in
+        Get.snackbar('Login Failed', 'Google sign-in was cancelled.');
         return;
       }
       final GoogleSignInAuthentication googleAuth =
@@ -41,8 +43,18 @@ class AuthController extends GetxController {
       );
       await _auth.signInWithCredential(credential);
       Get.snackbar('Login Successful', 'Logged in with Google!');
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'account-exists-with-different-credential') {
+        // Try to get the email and fetch sign-in methods
+        Get.snackbar(
+          'Account Exists',
+          'This email is already registered with another sign-in method. Please use that method first.',
+        );
+      } else {
+        Get.snackbar('Facebook Login Failed', e.message ?? 'Unknown error');
+      }
     } catch (e) {
-      Get.snackbar('Google Login Failed', e.toString());
+      Get.snackbar('Facebook Login Failed', e.toString());
     }
   }
 
@@ -53,7 +65,7 @@ class AuthController extends GetxController {
       );
 
       if (result.status == LoginStatus.cancelled) {
-        Get.snackbar('Cancelled', 'Facebook login was cancelled.');
+        Get.snackbar('Login Failed', 'Facebook login was cancelled.');
         return;
       }
 
@@ -87,5 +99,30 @@ class AuthController extends GetxController {
 
   Future<void> logout() async {
     await _auth.signOut();
+    Get.snackbar('Logout', 'You have been logged out.');
+  }
+
+  Future<void> signup(String email, String password) async {
+    try {
+      await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      Get.snackbar('Signup Successful', 'Welcome to ASCOA!');
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'email-already-in-use') {
+        Get.snackbar(
+          'Signup Failed',
+          'This email is already in use. Please use a different email.',
+        );
+      } else {
+        Get.snackbar(
+          'Signup Failed',
+          e.message ?? 'An unknown error occurred.',
+        );
+      }
+    } catch (e) {
+      Get.snackbar('Signup Failed', e.toString());
+    }
   }
 }

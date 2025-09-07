@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ascoa_app/shared/constants/app_colors.dart';
 
 class SocialButton extends StatelessWidget {
   final Widget icon;
@@ -23,7 +24,7 @@ class SocialButton extends StatelessWidget {
         height: 55,
         decoration: BoxDecoration(
           color: Colors.white,
-          border: Border.all(color: const Color(0xFFA9D0F5), width: 3),
+          border: Border.all(color: AppColors.accent, width: 3), // Green border
           borderRadius: BorderRadius.circular(10),
           boxShadow: const [
             BoxShadow(
