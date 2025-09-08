@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ascoa_app/shared/constants/app_colors.dart';
 import 'package:ascoa_app/shared/constants/app_text_styles.dart';
+import 'package:ascoa_app/shared/constants/app_dimensions.dart';
 
 class CustomInputField extends StatelessWidget {
   final TextEditingController controller;
@@ -25,17 +26,14 @@ class CustomInputField extends StatelessWidget {
       children: [
         Container(
           width: double.infinity,
-          height: 55,
+          height: AppDimensions.inputFieldHeight,
           decoration: BoxDecoration(
             color: AppColors.white,
             border: Border.all(
-              color:
-                  errorText != null
-                      ? AppColors.error
-                      : AppColors.accent, // Green border
-              width: 3,
+              color: errorText != null ? AppColors.error : AppColors.accent,
+              width: AppDimensions.borderWidth,
             ),
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(AppDimensions.borderRadius),
             boxShadow: const [
               BoxShadow(
                 color: Colors.black26,
@@ -44,7 +42,9 @@ class CustomInputField extends StatelessWidget {
               ),
             ],
           ),
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: EdgeInsets.symmetric(
+            horizontal: AppDimensions.inputHorizontalPadding,
+          ),
           alignment: Alignment.centerLeft,
           child: TextField(
             controller: controller,
@@ -52,18 +52,14 @@ class CustomInputField extends StatelessWidget {
             decoration: InputDecoration(
               hintText: hint,
               border: InputBorder.none,
-              hintStyle: const TextStyle(
-                fontFamily: 'Roboto',
-                fontSize: 16,
-                color: AppColors.textHint, // Use consistent hint color
-              ),
+              hintStyle: AppTextStyles.inputHint,
             ),
           ),
         ),
         if (errorText != null) ...[
-          const SizedBox(height: 4),
+          SizedBox(height: AppDimensions.inputErrorSpacing),
           Padding(
-            padding: const EdgeInsets.only(left: 4),
+            padding: EdgeInsets.only(left: AppDimensions.inputErrorSpacing),
             child: Text(errorText!, style: AppTextStyles.errorText),
           ),
         ],

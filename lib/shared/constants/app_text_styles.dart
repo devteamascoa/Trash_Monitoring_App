@@ -96,4 +96,10 @@ class AppTextStyles {
 
   // Prevent instantiation
   AppTextStyles._();
+  // Input hint text style
+  static const TextStyle inputHint = TextStyle(
+    fontFamily: roboto,
+    fontSize: 16,
+    color: AppColors.textHint,
+  );
 }

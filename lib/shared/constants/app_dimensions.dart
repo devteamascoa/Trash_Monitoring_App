@@ -26,6 +26,16 @@ class AppDimensions {
 
   // Component Shapes
   static const double borderRadius = 10.0;
+
+  // Input Field constants
+  static const double inputFieldHeight = 55.0;
+  static const double inputHorizontalPadding = 16.0;
+  // CustomInputField spacing
+  static const double inputErrorSpacing = 4.0;
+  static const double borderWidth = 3.0;
+  static const double boxShadowBlurRadius = 4.0;
+  static const double boxShadowOffsetX = 0.0;
+  static const double boxShadowOffsetY = 4.0;
   // Social button layout
   static const double socialIconContainerSize = 32.0;
   static const double socialContentSpacing = 18.0;
