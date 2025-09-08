@@ -24,17 +24,6 @@ class LoginScreen extends StatelessWidget {
     final ValidationController validationController =
         Get.find<ValidationController>();
 
-    // Add listeners for real-time validation
-    formControllers.emailController.addListener(() {
-      validationController.validateEmail(formControllers.emailController.text);
-    });
-
-    formControllers.passwordController.addListener(() {
-      validationController.validatePasswordRequired(
-        formControllers.passwordController.text,
-      );
-    });
-
     return Scaffold(
       body: Container(
         width: size.width,
@@ -81,6 +70,7 @@ class LoginScreen extends StatelessWidget {
                     hint: AppStrings.emailHint,
                     obscure: false,
                     errorText: validationController.emailError.value,
+                    onChanged: validationController.validateEmail,
                   ),
                 ),
 
@@ -103,6 +93,7 @@ class LoginScreen extends StatelessWidget {
                     hint: AppStrings.passwordHint,
                     obscure: true,
                     errorText: validationController.passwordError.value,
+                    onChanged: validationController.validatePasswordRequired,
                   ),
                 ),
 

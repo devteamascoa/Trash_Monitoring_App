@@ -7,14 +7,14 @@ class CustomInputField extends StatelessWidget {
   final TextEditingController controller;
   final String hint;
   final bool obscure;
-  final String? Function(String?)? validator;
+  final ValueChanged<String>? onChanged;
   final String? errorText;
 
   const CustomInputField({
     required this.controller,
     required this.hint,
     this.obscure = false,
-    this.validator,
+    this.onChanged,
     this.errorText,
     super.key,
   });
@@ -49,6 +49,8 @@ class CustomInputField extends StatelessWidget {
           child: TextField(
             controller: controller,
             obscureText: obscure,
+            onChanged: onChanged,
+            // Launch validation via onChanged callback
             decoration: InputDecoration(
               hintText: hint,
               border: InputBorder.none,

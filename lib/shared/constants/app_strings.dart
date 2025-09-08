@@ -28,7 +28,7 @@ class AppStrings {
 
   // Prevent instantiation
 
-  //Signup Screen
+  // Signup Screen
   static const String signupTitle = "Create Account";
   AppStrings._();
 }
