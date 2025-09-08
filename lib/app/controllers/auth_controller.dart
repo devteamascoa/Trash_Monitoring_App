@@ -43,6 +43,7 @@ class AuthController extends GetxController {
       );
       await _auth.signInWithCredential(credential);
       Get.snackbar('Login Successful', 'Logged in with Google!');
+      Get.offAllNamed(AppRoutes.home);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'account-exists-with-different-credential') {
         // Try to get the email and fetch sign-in methods
