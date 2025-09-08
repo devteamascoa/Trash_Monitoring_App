@@ -230,7 +230,7 @@ class LoginScreen extends StatelessWidget {
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       ),
                       onPressed: () {
-                        Get.toNamed(
+                        Get.offAllNamed(
                           AppRoutes.signup,
                         ); // Navigate to Signup Screen
                       },

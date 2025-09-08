@@ -11,6 +11,7 @@ class AppStrings {
   static const String continueWithGoogle = "Continue with Google";
   static const String continueWithFacebook = "Continue with Facebook";
   static const String noAccount = "Don't have an account? ";
+  static const String haveAccount = "Already have an account? ";
   static const String signUp = "Sign up";
   static const String termsText = "By using ASCOA, you agree to the \n";
   static const String termsTextSignUp = "By clicking here, you agree to the ";

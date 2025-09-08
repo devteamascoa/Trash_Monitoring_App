@@ -21,6 +21,15 @@ class AppDimensions {
   static const double buttonForgotSpacing = 0.002;
   static const double sectionSpacing = 0.02;
 
+  // Component Heights
+  static const double buttonHeight = 55.0;
+
+  // Component Shapes
+  static const double borderRadius = 10.0;
+  // Social button layout
+  static const double socialIconContainerSize = 32.0;
+  static const double socialContentSpacing = 18.0;
+
   // Prevent instantiation
   AppDimensions._();
 }

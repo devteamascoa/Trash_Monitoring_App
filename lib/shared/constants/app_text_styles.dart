@@ -78,6 +78,22 @@ class AppTextStyles {
     color: AppColors.error, // Red color for error messages
   );
 
+  // Primary Button Text
+  static const TextStyle buttonPrimaryText = TextStyle(
+    fontFamily: inter,
+    fontWeight: FontWeight.w600,
+    fontSize: 16,
+    color: AppColors.white,
+  );
+
+  // Social Button Text
+  static const TextStyle buttonSocialText = TextStyle(
+    fontFamily: roboto,
+    fontWeight: FontWeight.w700,
+    fontSize: 16,
+    color: AppColors.buttonText,
+  );
+
   // Prevent instantiation
   AppTextStyles._();
 }

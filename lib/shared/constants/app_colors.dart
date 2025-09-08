@@ -29,6 +29,7 @@ class AppColors {
   // Social Login Colors
   static const Color google = Color(0xFF4285F4);
   static const Color facebook = Color(0xFF4267B2);
+  static const Color buttonText = Color(0xFF3A383F);
 
   // Error Colors
   static const Color error = Color(0xFFFF0000); // Red color for error messages

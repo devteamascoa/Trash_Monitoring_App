@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ascoa_app/shared/constants/app_colors.dart';
+import 'package:ascoa_app/shared/constants/app_dimensions.dart';
+import 'package:ascoa_app/shared/constants/app_text_styles.dart';
 
 class SocialButton extends StatelessWidget {
   final Widget icon;
@@ -21,11 +23,11 @@ class SocialButton extends StatelessWidget {
       onTap: onPressed,
       child: Container(
         width: double.infinity,
-        height: 55,
+        height: AppDimensions.buttonHeight,
         decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(color: AppColors.accent, width: 3), // Green border
-          borderRadius: BorderRadius.circular(10),
+          color: AppColors.white,
+          border: Border.all(color: AppColors.accent, width: 3),
+          borderRadius: BorderRadius.circular(AppDimensions.borderRadius),
           boxShadow: const [
             BoxShadow(
               color: Colors.black26,
@@ -38,17 +40,13 @@ class SocialButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(width: 32, height: 32, child: icon),
-            const SizedBox(width: 18),
-            Text(
-              label,
-              style: const TextStyle(
-                fontFamily: 'Roboto',
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
-                color: Color(0xFF3A383F),
-              ),
+            SizedBox(
+              width: AppDimensions.socialIconContainerSize,
+              height: AppDimensions.socialIconContainerSize,
+              child: icon,
             ),
+            SizedBox(width: AppDimensions.socialContentSpacing),
+            Text(label, style: AppTextStyles.buttonSocialText),
           ],
         ),
       ),

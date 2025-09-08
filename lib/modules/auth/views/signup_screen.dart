@@ -11,6 +11,7 @@ import 'package:ascoa_app/shared/constants/app_text_styles.dart';
 import 'package:ascoa_app/shared/constants/app_dimensions.dart';
 import 'package:ascoa_app/shared/constants/app_strings.dart';
 import 'package:ascoa_app/shared/widgets/social_button.dart';
+import 'package:ascoa_app/app/routes/app_routes.dart';
 
 class SignupScreen extends StatelessWidget {
   const SignupScreen({super.key});
@@ -287,6 +288,35 @@ class SignupScreen extends StatelessWidget {
                   label: 'Continue with Facebook',
                   color: AppColors.facebook,
                   onPressed: () => controller.loginWithFacebook(),
+                ),
+
+                SizedBox(height: size.height * AppDimensions.sectionSpacing),
+
+                // Sign Up (only 'Sign up' is a link)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      AppStrings.haveAccount,
+                      style: AppTextStyles.bodySecondary,
+                    ),
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                        minimumSize: Size.zero,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                      onPressed: () {
+                        Get.offAllNamed(
+                          AppRoutes.login,
+                        ); // Navigate to Login Screen
+                      },
+                      child: const Text(
+                        AppStrings.loginButton,
+                        style: AppTextStyles.buttonLink,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
