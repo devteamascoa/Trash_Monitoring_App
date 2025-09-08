@@ -52,10 +52,10 @@ class AuthController extends GetxController {
           'This email is already registered with another sign-in method. Please use that method first.',
         );
       } else {
-        Get.snackbar('Facebook Login Failed', e.message ?? 'Unknown error');
+        Get.snackbar('Google Login Failed', e.message ?? 'Unknown error');
       }
     } catch (e) {
-      Get.snackbar('Facebook Login Failed', e.toString());
+      Get.snackbar('Google Login Failed', e.toString());
     }
   }
 
