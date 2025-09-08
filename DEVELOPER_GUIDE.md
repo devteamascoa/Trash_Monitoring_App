@@ -21,10 +21,7 @@ lib/
 - Firebase initialization
 - Global AuthController registration with `permanent: true`
 - GetX app configuration
-
 - Dynamic initial route: the app now checks `FirebaseAuth.instance.currentUser` after initialization and sets the initial route to `AppRoutes.home` when a user is already signed in; otherwise it uses `AppRoutes.login`.
-
-````plaintext
 
 ### 2. Authentication Module (`modules/auth/`)
 
