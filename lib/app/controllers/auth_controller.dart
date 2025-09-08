@@ -83,6 +83,7 @@ class AuthController extends GetxController {
 
       await _auth.signInWithCredential(facebookAuthCredential);
       Get.snackbar('Login Successful', 'Logged in with Facebook!');
+      Get.offAllNamed(AppRoutes.home);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'account-exists-with-different-credential') {
         // Try to get the email and fetch sign-in methods
