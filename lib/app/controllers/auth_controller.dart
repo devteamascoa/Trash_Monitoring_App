@@ -111,6 +111,7 @@ class AuthController extends GetxController {
         password: password,
       );
       Get.snackbar('Signup Successful', 'Welcome to ASCOA!');
+      Get.offAllNamed(AppRoutes.home);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
         Get.snackbar(
