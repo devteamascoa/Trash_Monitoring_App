@@ -8,7 +8,8 @@ import 'shared/controllers/form_binding.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'modules/home/views/home_screen.dart';
+// import 'modules/home/views/home_screen.dart';
+import 'modules/auth/views/forgot_password_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,7 +44,21 @@ class MyApp extends StatelessWidget {
           page: () => const SignupScreen(),
           bindings: [FormBinding()],
         ),
-        GetPage(name: AppRoutes.home, page: () => const HomeScreen()),
+        // GetPage(name: AppRoutes.home, page: () => const HomeScreen()),
+
+        GetPage(
+          name: AppRoutes.forgotPassword,
+          page: () => ForgotPasswordScreen(),
+          bindings: [FormBinding()],
+        ),
+        GetPage(
+          name: AppRoutes.forgotPasswordConfirmation,
+          page: () {
+            final email = Get.arguments?['email'] ?? '';
+            return ForgotPasswordConfirmationScreen(email: email);
+          },
+          bindings: [FormBinding()],
+        ),
         // Add more GetPages for other routes
       ],
       theme: ThemeData(

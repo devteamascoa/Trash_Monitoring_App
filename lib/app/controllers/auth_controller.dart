@@ -4,6 +4,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:ascoa_app/app/routes/app_routes.dart';
 
+import 'package:flutter/material.dart'; // For Colors : Michel
+
 class AuthController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   Rxn<User> firebaseUser = Rxn<User>();
@@ -128,4 +130,42 @@ class AuthController extends GetxController {
       Get.snackbar('Signup Failed', e.toString());
     }
   }
+
+  // ===============================================
+  // FORGOT PASSWORD FEATURE - Added by Michel
+  // Branch: feature/forgot-password
+  // ===============================================
+
+  /// Loading state for forgot password
+  RxBool isLoadingForgotPassword = false.obs;
+
+  /// Send password reset email
+  /// Returns a string status for UI dialog handling
+  Future<String> forgotPassword(String email) async {
+    isLoadingForgotPassword.value = true;
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+      return 'success';
+    } on FirebaseAuthException catch (e) {
+      switch (e.code) {
+        case 'user-not-found':
+          return 'user-not-found';
+        case 'invalid-email':
+          return 'invalid-email';
+        case 'too-many-requests':
+          return 'too-many-requests';
+        default:
+          return 'error';
+      }
+    } catch (_) {
+      return 'error';
+    } finally {
+      isLoadingForgotPassword.value = false;
+    }
+  }
+
+  // ===============================================
+  // END FORGOT PASSWORD FEATURE - Michel
+  // ===============================================
+  
 }

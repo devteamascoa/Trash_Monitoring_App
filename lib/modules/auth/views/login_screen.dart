@@ -130,10 +130,7 @@ class LoginScreen extends StatelessWidget {
                   alignment: Alignment.centerRight,
                   child: TextButton(
                     onPressed: () {
-                      Get.snackbar(
-                        AppStrings.forgotPassword,
-                        AppStrings.forgotPasswordNav,
-                      );
+                      Get.toNamed(AppRoutes.forgotPassword);
                     },
                     child: const Text(
                       AppStrings.forgotPassword,
