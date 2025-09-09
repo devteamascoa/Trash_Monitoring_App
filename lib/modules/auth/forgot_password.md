@@ -40,11 +40,11 @@ Allows users to request a password reset link via email. Integrates with **AuthC
 
 ```dart
 // Navigate to Forgot Password screen
-Get.toNamed('/forgot-password');
+Get.toNamed(AppRoutes.forgotPassword);
 
 // Navigate to Confirmation screen with email argument
 Get.toNamed(
-  '/forgot-password-confirmation',
+  AppRoutes.forgotPasswordConfirmation,
   arguments: {'email': 'user@example.com'},
 );
 ```
@@ -57,7 +57,7 @@ final result = await authController.forgotPassword('user@example.com');
 
 if(result == 'success'){
   Get.toNamed(
-    '/forgot-password-confirmation',
+    AppRoutes.forgotPasswordConfirmation,
     arguments: {'email': 'user@example.com'},
   );
 }
@@ -67,7 +67,7 @@ if(result == 'success'){
 
 ```dart
 Get.toNamed(
-  '/forgot-password-confirmation',
+  AppRoutes.forgotPasswordConfirmation,
   arguments: {'email': 'user@example.com'},
 );
 ```
