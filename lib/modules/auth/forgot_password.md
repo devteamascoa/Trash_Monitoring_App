@@ -10,28 +10,30 @@ Allows users to request a password reset link via email. Integrates with **AuthC
 
 ### Screens
 
-- **ForgotPasswordScreen**  
-  - Input: Email  
-  - Features: Real-time email validation, loading state, bilingual labels/messages  
+- **ForgotPasswordScreen**
+
+  - Input: Email
+  - Features: Real-time email validation, loading state, bilingual labels/messages
   - Action: Sends password reset request via `AuthController`
 
-- **ForgotPasswordConfirmationScreen**  
-  - Displays the email address where the reset link was sent  
+- **ForgotPasswordConfirmationScreen**
+  - Displays the email address where the reset link was sent
   - Shows confirmation message in English or French
 
 ### Controllers
 
-- **AuthController**  
-  - `RxBool isLoadingForgotPassword` – tracks loading state  
-  - `Future<String> forgotPassword(String email)` – sends reset email  
-  - Returns:  
-    - `'success'` → Email sent  
-    - `'user-not-found'` → No user found  
-    - `'invalid-email'` → Invalid email format  
-    - `'too-many-requests'` → Rate limit  
-    - `'error'` → General Firebase error  
+- **AuthController**
 
-- **FormControllers** – Manages `emailController` for input  
+  - `RxBool isLoadingForgotPassword` – tracks loading state
+  - `Future<String> forgotPassword(String email)` – sends reset email
+  - Returns:
+    - `'success'` → Email sent
+    - `'user-not-found'` → No user found
+    - `'invalid-email'` → Invalid email format
+    - `'too-many-requests'` → Rate limit
+    - `'error'` → General Firebase error
+
+- **FormControllers** – Manages `emailController` for input
 - **ValidationController** – Validates email in real-time and sets error messages
 
 ---
@@ -76,9 +78,9 @@ Get.toNamed(
 
 ## Features
 
-* Real-time email validation with error feedback
-* Loading state disables button during request
-* Bilingual support (English/French) using `Get.locale`
-* Error handling via snackbars
-* Modern UI matching app color scheme
-* Footer includes Terms & Privacy Policy
+- Real-time email validation with error feedback
+- Loading state disables button during request
+- Bilingual support (English/French) using `Get.locale`
+- Error handling via snackbars
+- Modern UI matching app color scheme
+- Footer includes Terms & Privacy Policy

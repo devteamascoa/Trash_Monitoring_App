@@ -4,8 +4,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:ascoa_app/app/routes/app_routes.dart';
 
-import 'package:flutter/material.dart'; // For Colors : Michel
-
 class AuthController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   Rxn<User> firebaseUser = Rxn<User>();
@@ -134,6 +132,7 @@ class AuthController extends GetxController {
   // ===============================================
   // FORGOT PASSWORD FEATURE - Added by Michel
   // Branch: feature/forgot-password
+  // Imroved: by Rohith
   // ===============================================
 
   /// Loading state for forgot password
@@ -144,7 +143,7 @@ class AuthController extends GetxController {
   Future<String> forgotPassword(String email) async {
     isLoadingForgotPassword.value = true;
     try {
-      await _auth.sendPasswordResetEmail(email: email);
+      await _auth.sendPasswordResetEmail(email: email.trim());
       return 'success';
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
@@ -167,5 +166,4 @@ class AuthController extends GetxController {
   // ===============================================
   // END FORGOT PASSWORD FEATURE - Michel
   // ===============================================
-  
 }

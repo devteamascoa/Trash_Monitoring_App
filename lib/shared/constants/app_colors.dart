@@ -16,6 +16,8 @@ class AppColors {
   static const Color textWhite70 = Color(
     0xB3FFFFFF,
   ); // White text with 70% opacity
+  static const Color buttonPrimary70 = Color(0xB3228B22); // 70% opacity
+  static const Color buttonPrimary40 = Color(0x66228B22); // 40% opacity
   static const Color textBlack = Color(0xFF000000); // Black text (fully opaque)
   static const Color textBlack70 = Color(
     0xB3000000,

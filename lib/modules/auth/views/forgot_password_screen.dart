@@ -1,8 +1,8 @@
-// =============================================== 
-// FORGOT PASSWORD SCREEN AND FORGOT PASSWORD CONFIRMATION SCREEN- Created by Michel 
-// Branch: feature/forgot-password 
-// Description: Screen for password reset functionality 
-// Usage: Navigated from LoginScreen forgot password button 
+// ===============================================
+// FORGOT PASSWORD SCREEN AND FORGOT PASSWORD CONFIRMATION SCREEN- Created by Michel
+// Branch: feature/forgot-password
+// Description: Screen for password reset functionality
+// Usage: Navigated from LoginScreen forgot password button
 // ===============================================
 
 // ===============================================
@@ -18,6 +18,7 @@ import 'package:ascoa_app/shared/controllers/validation_controller.dart';
 import 'package:ascoa_app/shared/widgets/custom_input_field.dart';
 import 'package:ascoa_app/shared/widgets/primary_button.dart';
 import 'package:ascoa_app/shared/constants/app_colors.dart';
+import 'package:ascoa_app/shared/constants/app_strings.dart';
 import 'package:ascoa_app/shared/constants/app_text_styles.dart';
 import 'package:ascoa_app/shared/constants/app_dimensions.dart';
 
@@ -29,13 +30,10 @@ class ForgotPasswordScreen extends StatefulWidget {
 }
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
-  // Controllers 
+  // Controllers
   late final AuthController controller;
   late final FormControllers formControllers;
   late final ValidationController validationController;
-
-  // Focus node for better UX
-  final FocusNode _emailFocusNode = FocusNode();
 
   @override
   void initState() {
@@ -45,24 +43,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     controller = Get.find<AuthController>();
     formControllers = Get.find<FormControllers>();
     validationController = Get.find<ValidationController>();
-
-    // Setup email validation listener once
-    _setupEmailValidation();
-  }
-
-  void _setupEmailValidation() {
-    formControllers.emailController.addListener(() {
-      validationController.validateEmail(formControllers.emailController.text);
-    });
   }
 
   @override
   void dispose() {
-    _emailFocusNode.dispose();
-    // Remove listener to prevent memory leaks
-    formControllers.emailController.removeListener(() {
-      validationController.validateEmail(formControllers.emailController.text);
-    });
     super.dispose();
   }
 
@@ -83,48 +67,49 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
     if (validationController.emailError.value == null &&
         formControllers.emailController.text.isNotEmpty) {
-
-      controller.forgotPassword(formControllers.emailController.text)
+      controller
+          .forgotPassword(formControllers.emailController.text)
           .then((result) {
-        switch (result) {
-          case 'success':
-            _navigateToConfirmation(formControllers.emailController.text);
-            break;
-          case 'user-not-found':
+            switch (result) {
+              case 'success':
+                _navigateToConfirmation(formControllers.emailController.text);
+                break;
+              case 'user-not-found':
+                _showErrorSnackbar(
+                  isFrench
+                      ? 'Aucun utilisateur trouvé avec cette adresse email.'
+                      : 'No user found with this email address.',
+                );
+                break;
+              case 'invalid-email':
+                _showErrorSnackbar(
+                  isFrench
+                      ? 'Adresse email invalide.'
+                      : 'Invalid email address.',
+                );
+                break;
+              case 'too-many-requests':
+                _showErrorSnackbar(
+                  isFrench
+                      ? 'Trop de tentatives. Réessayez plus tard.'
+                      : 'Too many attempts. Try again later.',
+                );
+                break;
+              default:
+                _showErrorSnackbar(
+                  isFrench
+                      ? 'Une erreur est survenue. Réessayez plus tard.'
+                      : 'An error occurred. Try again later.',
+                );
+            }
+          })
+          .catchError((error) {
             _showErrorSnackbar(
-              isFrench 
-                ? 'Aucun utilisateur trouvé avec cette adresse email.'
-                : 'No user found with this email address.'
+              isFrench
+                  ? 'Une erreur est survenue. Réessayez plus tard.'
+                  : 'An error occurred. Try again later.',
             );
-            break;
-          case 'invalid-email':
-            _showErrorSnackbar(
-              isFrench 
-                ? 'Adresse email invalide.'
-                : 'Invalid email address.'
-            );
-            break;
-          case 'too-many-requests':
-            _showErrorSnackbar(
-              isFrench 
-                ? 'Trop de tentatives. Réessayez plus tard.'
-                : 'Too many attempts. Try again later.'
-            );
-            break;
-          default:
-            _showErrorSnackbar(
-              isFrench 
-                ? 'Une erreur est survenue. Réessayez plus tard.'
-                : 'An error occurred. Try again later.'
-            );
-        }
-      }).catchError((error) {
-        _showErrorSnackbar(
-          isFrench 
-            ? 'Une erreur est survenue. Réessayez plus tard.'
-            : 'An error occurred. Try again later.'
-        );
-      });
+          });
     }
   }
 
@@ -159,8 +144,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: size.height * AppDimensions.titleTopSpacing),
-
                 // Back Button - Styled like login screen
                 Align(
                   alignment: Alignment.centerLeft,
@@ -168,14 +151,15 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     onPressed: () => Get.back(),
                     icon: const Icon(
                       Icons.arrow_back,
-                      color: AppColors.buttonPrimary, // Green color matching login
+                      color:
+                          AppColors.buttonPrimary, // Green color matching login
                       size: 28,
                     ),
                     padding: EdgeInsets.zero,
                   ),
                 ),
 
-                SizedBox(height: size.height * 0.02),
+                SizedBox(height: size.height * AppDimensions.titleTopSpacing),
 
                 // Title - Same style as login
                 Text(
@@ -184,18 +168,20 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   style: AppTextStyles.heading1, // Same as login screen
                 ),
 
-                SizedBox(height: size.height * AppDimensions.titleBottomSpacing),
+                SizedBox(height: size.height * AppDimensions.inputSpacing),
 
                 // Subtitle
                 Text(
-                  isFrench 
-                    ? 'Nous vous enverrons par email\nun lien pour réinitialiser votre mot de passe.'
-                    : 'We will email you\na link to reset your password.',
+                  isFrench
+                      ? 'Nous vous enverrons par email\nun lien pour réinitialiser votre mot de passe.'
+                      : 'We will email you\na link to reset your password.',
                   style: AppTextStyles.bodySecondary, // Same as login screen
                   textAlign: TextAlign.center,
                 ),
 
-                SizedBox(height: size.height * 0.05),
+                SizedBox(
+                  height: size.height * AppDimensions.titleBottomSpacing,
+                ),
 
                 // Email Label - EXACTLY like login screen
                 Align(
@@ -210,54 +196,61 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 const SizedBox(height: AppDimensions.smallSpacing),
 
                 // Email Input Field - EXACTLY like login screen using CustomInputField
-                Obx(() => CustomInputField(
-                  controller: formControllers.emailController,
-                  hint: 'exampleemail@gmail.com',
-                  obscure: false,
-                  errorText: validationController.emailError.value,
-                  onChanged: validationController.validateEmail,
-                )),
+                Obx(
+                  () => CustomInputField(
+                    controller: formControllers.emailController,
+                    hint: AppStrings.emailHint,
+                    obscure: false,
+                    errorText: validationController.emailError.value,
+                    onChanged: validationController.validateEmail,
+                  ),
+                ),
 
                 SizedBox(height: size.height * AppDimensions.buttonSpacing),
 
                 // Send Reset Link Button - Using PrimaryButton like login
-                Obx(() => PrimaryButton(
-                  label: controller.isLoadingForgotPassword.value
-                      ? (isFrench ? 'Envoi en cours...' : 'Sending...')
-                      : (isFrench ? 'Envoyer le lien' : 'Send Reset Link'),
-                  onPressed: controller.isLoadingForgotPassword.value
-                      ? () {} // Empty function instead of null
-                      : _handleForgotPassword,
-                )),
-
-                SizedBox(height: size.height * 0.1),
-
-                // Terms and Privacy Policy - Same style as login
-                RichText(
-                  textAlign: TextAlign.center,
-                  text: TextSpan(
-                    style: AppTextStyles.termsBase, // Same as login
-                    children: [
-                      TextSpan(
-                        text: isFrench 
-                          ? 'En utilisant ASCOA, vous acceptez les '
-                          : 'By using ASCOA, you agree to the ',
-                      ),
-                      const TextSpan(
-                        text: 'Terms',
-                        style: AppTextStyles.termsLink, // Same as login
-                      ),
-                      TextSpan(
-                        text: isFrench ? ' et ' : ' and ',
-                      ),
-                      const TextSpan(
-                        text: 'Privacy Policy',
-                        style: AppTextStyles.termsLink, // Same as login
-                      ),
-                      const TextSpan(text: '.'),
-                    ],
+                Obx(
+                  () => PrimaryButton(
+                    label:
+                        controller.isLoadingForgotPassword.value
+                            ? (isFrench ? 'Envoi en cours...' : 'Sending...')
+                            : (isFrench
+                                ? 'Envoyer le lien'
+                                : 'Send Reset Link'),
+                    onPressed:
+                        controller.isLoadingForgotPassword.value
+                            ? () {} // Empty function instead of null
+                            : _handleForgotPassword,
                   ),
                 ),
+
+                // SizedBox(height: size.height * 0.1),
+
+                // // Terms and Privacy Policy - Same style as login
+                // RichText(
+                //   textAlign: TextAlign.center,
+                //   text: TextSpan(
+                //     style: AppTextStyles.termsBase, // Same as login
+                //     children: [
+                //       TextSpan(
+                //         text:
+                //             isFrench
+                //                 ? 'En utilisant ASCOA, vous acceptez les '
+                //                 : 'By using ASCOA, you agree to the ',
+                //       ),
+                //       const TextSpan(
+                //         text: 'Terms',
+                //         style: AppTextStyles.termsLink, // Same as login
+                //       ),
+                //       TextSpan(text: isFrench ? ' et ' : ' and '),
+                //       const TextSpan(
+                //         text: 'Privacy Policy',
+                //         style: AppTextStyles.termsLink, // Same as login
+                //       ),
+                //       const TextSpan(text: '.'),
+                //     ],
+                //   ),
+                // ),
               ],
             ),
           ),
@@ -274,10 +267,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 class ForgotPasswordConfirmationScreen extends StatelessWidget {
   final String email;
 
-  const ForgotPasswordConfirmationScreen({
-    super.key,
-    required this.email,
-  });
+  const ForgotPasswordConfirmationScreen({super.key, required this.email});
 
   @override
   Widget build(BuildContext context) {
@@ -325,7 +315,6 @@ class ForgotPasswordConfirmationScreen extends StatelessWidget {
                 //     color: AppColors.buttonPrimary, // Green color
                 //   ),
                 // ),
-
                 Container(
                   width: 80,
                   height: 80,
@@ -333,7 +322,7 @@ class ForgotPasswordConfirmationScreen extends StatelessWidget {
                     shape: BoxShape.circle,
                     gradient: LinearGradient(
                       colors: [
-                        AppColors.buttonPrimary.withOpacity(0.7),
+                        AppColors.buttonPrimary70,
                         AppColors.buttonPrimary,
                       ],
                       begin: Alignment.topLeft,
@@ -341,7 +330,7 @@ class ForgotPasswordConfirmationScreen extends StatelessWidget {
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: AppColors.buttonPrimary.withOpacity(0.4),
+                        color: AppColors.buttonPrimary40,
                         blurRadius: 8,
                         offset: const Offset(0, 4),
                       ),
@@ -354,8 +343,7 @@ class ForgotPasswordConfirmationScreen extends StatelessWidget {
                   ),
                 ),
 
-
-                SizedBox(height: size.height * 0.04),
+                SizedBox(height: size.height * AppDimensions.paragraphSpacing),
 
                 // Confirmation Message
                 RichText(
@@ -364,9 +352,10 @@ class ForgotPasswordConfirmationScreen extends StatelessWidget {
                     style: AppTextStyles.bodySecondary,
                     children: [
                       TextSpan(
-                        text: isFrench 
-                          ? 'Nous avons envoyé un email\nà '
-                          : 'We have sent an email\nto ',
+                        text:
+                            isFrench
+                                ? 'Nous avons envoyé un email\nà '
+                                : 'We have sent an email\nto ',
                       ),
                       TextSpan(
                         text: email,
@@ -376,53 +365,53 @@ class ForgotPasswordConfirmationScreen extends StatelessWidget {
                         ),
                       ),
                       TextSpan(
-                        text: isFrench 
-                          ? ' avec des instructions\npour réinitialiser votre mot de passe.'
-                          : ' with instructions\nto reset your password.',
+                        text:
+                            isFrench
+                                ? ' avec des instructions\npour réinitialiser votre mot de passe.'
+                                : ' with instructions\nto reset your password.',
                       ),
                     ],
                   ),
                 ),
 
-                SizedBox(height: size.height * 0.05),
+                SizedBox(height: size.height * AppDimensions.paragraphSpacing),
 
                 // Back to Login Button - Using PrimaryButton
                 PrimaryButton(
                   label: isFrench ? 'Retour à la connexion' : 'Back to Login',
                   onPressed: () {
                     // Navigate back to login (remove all previous screens)
-                    Get.offAllNamed('/login');
+                    Get.offAllNamed(AppRoutes.login);
                   },
                 ),
 
-                SizedBox(height: size.height * 0.1),
+                // SizedBox(height: size.height * 0.1),
 
-                // Terms and Privacy Policy
-                RichText(
-                  textAlign: TextAlign.center,
-                  text: TextSpan(
-                    style: AppTextStyles.termsBase,
-                    children: [
-                      TextSpan(
-                        text: isFrench 
-                          ? 'En utilisant ASCOA, vous acceptez les '
-                          : 'By using ASCOA, you agree to the ',
-                      ),
-                      const TextSpan(
-                        text: 'Terms',
-                        style: AppTextStyles.termsLink,
-                      ),
-                      TextSpan(
-                        text: isFrench ? ' et ' : ' and ',
-                      ),
-                      const TextSpan(
-                        text: 'Privacy Policy',
-                        style: AppTextStyles.termsLink,
-                      ),
-                      const TextSpan(text: '.'),
-                    ],
-                  ),
-                ),
+                // // Terms and Privacy Policy
+                // RichText(
+                //   textAlign: TextAlign.center,
+                //   text: TextSpan(
+                //     style: AppTextStyles.termsBase,
+                //     children: [
+                //       TextSpan(
+                //         text:
+                //             isFrench
+                //                 ? 'En utilisant ASCOA, vous acceptez les '
+                //                 : 'By using ASCOA, you agree to the ',
+                //       ),
+                //       const TextSpan(
+                //         text: 'Terms',
+                //         style: AppTextStyles.termsLink,
+                //       ),
+                //       TextSpan(text: isFrench ? ' et ' : ' and '),
+                //       const TextSpan(
+                //         text: 'Privacy Policy',
+                //         style: AppTextStyles.termsLink,
+                //       ),
+                //       const TextSpan(text: '.'),
+                //     ],
+                //   ),
+                // ),
               ],
             ),
           ),

@@ -20,6 +20,7 @@ class AppDimensions {
   static const double buttonSpacing = 0.03;
   static const double buttonForgotSpacing = 0.002;
   static const double sectionSpacing = 0.02;
+  static const double paragraphSpacing = 0.04;
 
   // Component Heights
   static const double buttonHeight = 55.0;

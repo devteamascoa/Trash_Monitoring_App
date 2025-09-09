@@ -8,7 +8,7 @@ import 'shared/controllers/form_binding.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-// import 'modules/home/views/home_screen.dart';
+import 'modules/home/views/home_screen.dart';
 import 'modules/auth/views/forgot_password_screen.dart';
 
 void main() async {
@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
           page: () => const SignupScreen(),
           bindings: [FormBinding()],
         ),
-        // GetPage(name: AppRoutes.home, page: () => const HomeScreen()),
+        GetPage(name: AppRoutes.home, page: () => const HomeScreen()),
 
         GetPage(
           name: AppRoutes.forgotPassword,
